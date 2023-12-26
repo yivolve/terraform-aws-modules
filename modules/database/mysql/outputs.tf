@@ -1,0 +1,24 @@
+output "address" {
+  value       = aws_db_instance.example.address
+  description = "Connect to the database at this endpoint"
+}
+
+output "port" {
+  value       = aws_db_instance.example.port
+  description = "The port the database is listening on"
+}
+
+output "engine" {
+  value       = aws_db_instance.example.engine
+  description = "Engine name"
+}
+
+output "engine_version" {
+  value       = aws_db_instance.example.engine_version
+  description = "Engine version"
+}
+
+output "rds_mysql_arn" {
+  value       = aws_db_instance.example.arn
+  description = "The ARN of the database"
+}

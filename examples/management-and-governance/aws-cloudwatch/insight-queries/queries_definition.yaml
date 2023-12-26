@@ -1,0 +1,18 @@
+---
+dev:
+  query_name: PROJECT_NAME-DEV/pod-test(toy)
+  log_group_names: [
+        "/aws/containerinsights/dev-cluster/application",
+      ]
+  query_string : |
+    # Logs of the default container: toy
+    fields @timestamp, kubernetes.pod_name, log
+    | filter kubernetes.pod_name  like /pod-test-/
+    | filter kubernetes.container_name = 'toy'
+    | sort @timestamp desc
+    | limit 200
+qa:
+  query_name: PROJECT_NAME-QA/pod-test(default)
+  log_group_names: [
+        "/aws/containerinsights/dev-cluster/application",
+      ]
