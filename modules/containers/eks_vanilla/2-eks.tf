@@ -28,7 +28,7 @@ module "eks" {
   self_managed_node_groups         = var.self_managed_node_groups
 
   # EKS Managed Node Group(s)
-  eks_managed_node_group_defaults = eks_managed_node_group_defaults
+  eks_managed_node_group_defaults = var.eks_managed_node_group_defaults
   eks_managed_node_groups         = var.eks_managed_node_groups
 
   # Fargate Profile(s)
@@ -45,7 +45,7 @@ module "eks" {
   aws_auth_fargate_profile_pod_execution_role_arns = var.aws_auth_fargate_profile_pod_execution_role_arns
   aws_auth_roles                                   = var.aws_auth_roles
   aws_auth_users                                   = var.aws_auth_users
-  aws_auth_accounts                                = aws_auth_accounts
+  aws_auth_accounts                                = var.aws_auth_accounts
 
   tags = var.tags
 }
