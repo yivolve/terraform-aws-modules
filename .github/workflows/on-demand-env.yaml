@@ -1,0 +1,96 @@
+name: Provision New Env
+on:
+  workflow_dispatch:
+    inputs:
+      env-name:
+        description: The name of the new environment
+        required: true
+        type: string
+      aws-region:
+        description: AWS region where to deploy
+        required: true
+        type: string
+      cidr:
+        description: VPC cidr block to use
+        required: true
+        type: string
+        default: 'Valid CIDR block provided by Devops team'
+      rds-instance-type:
+        description: "For dev use 'db.t2.medium'"
+        required: true
+        default: 'db.t2.medium'
+        type: choice
+        options:
+          - db.t2.medium
+          - db.t2.large
+      ec2-tomcat-instance-size:
+        description: "For dev use 'm5.large'"
+        required: true
+        default: 'm5.large'
+        type: choice
+        options:
+          - m5.large
+          - m5.xlarge
+      ec2-tomcat-instance-count:
+        description: "For dev use '1'"
+        required: true
+        default: '1'
+        type: string
+      ec2-docgen-instance-size:
+        description: "For dev use 'm5.large'"
+        required: true
+        default: 'm5.large'
+        type: choice
+        options:
+          - m5.large
+          - m5.xlarge
+      ec2-docgen-instance-count:
+        description: "For dev use '1'"
+        required: true
+        default: '1'
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  create-env-folder:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get an entry with a variable that might contain dots or spaces
+        id: get-yaml
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq '.env' /home/escaneto/repos/IaC/auto_aws_mini_project/.github/scripts/env_vars.yaml
+      - name: Reuse a variable obtained in another step
+        run: echo ${{ steps.get-yaml.outputs.result }}
+
+      # - name: Check inputs are not empty
+      #   if: ${{ inputs.env-name == '' }} || ${{ inputs.aws-region == '' }} || ${{ inputs.cidr == '' }} || ${{ inputs.rds-instance-type == '' }}
+      #   run: |
+      #     echo 'INPUTS_VALIDATE=$(echo -e "#### Error ❌: All inputs must have a value\n")' >> $GITHUB_ENV
+      #     exit 0
+
+      # - name: Setup Python Requirements
+      #   run: python -m pip install -r .github/scripts/requirements.txt
+
+      # - name: Create new environment folder
+      #   id: folder-sync
+      #   run: python .github/scripts/create_new_env.py --env-name=dev_temporal
+      #   # run: python .github/scripts/create_new_env.py --env-name=${{ inputs.env-name }}
+
+      # - name: Assign values to tarted variables
+      #   id: variable-assigment
+      #   working-directory: ./.github/scripts/hcledit
+      #   run: go run main.go -filename ../../../og_terraform/on-demand/${{ inputs.env-name }}/terraform.tfvars -key remote_state_bucket -value NEW_BUCKET
+
+      # - name: Generate job summary
+      #   if: always()
+      #   run: |
+      #     cat > $GITHUB_STEP_SUMMARY << EOL
+      #     ${{ env.INPUTS_VALIDATE }}
+      #     EOL
