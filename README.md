@@ -1,3 +1,3 @@
 # Terrafrom AWS Modules
 
-Terraform AWS that consumed by Terragrunt.
+Terraform AWS that mainly consumed by Terragrunt.

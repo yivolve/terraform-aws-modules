@@ -1,0 +1,56 @@
+name: Terragrunt Plan
+on:
+  workflow_dispatch:
+    inputs:
+      aws_region:
+        description: AWS region to which to deploy
+        required: true
+        default: "us-west-1"
+        type: string
+  push:
+    branches: ['dev/vpc-nacl']
+
+env:
+  tf_version: '1.5.7'
+  tg_version: '0.54.6'
+  working_dir: 'Toru/us-west-1/vpc'
+  aws_region: "us-west-1"
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read
+
+jobs:
+  Plan:
+    runs-on: self-hosted
+    # runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/catthehacker/ubuntu:act-latest
+    steps:
+      - name: Checkout Target Repos
+        uses: actions/checkout@v3
+
+      - name: 'Checkout TG Account Details'
+        uses: actions/checkout@v3
+        with:
+          repository: escanoru/freyja
+          token: ${{ secrets.TG_FREYJA }}
+          path: freyja
+
+      - name: Echo AWS region
+        run: echo "${{ env.aws_region }}"
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::845387176701:role/ghActionsTG
+          aws-region: "${{ env.aws_region }}"
+
+      - name: Terragrunt Plan
+        uses: ./.github/actions/terragrunt_wrapper
+        with:
+          tg_command: 'plan'
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.working_dir }}
+          tf_version: ${{ env.tf_version }}
+          SSH_PUB: ${{ secrets.SSH_PUB }}
