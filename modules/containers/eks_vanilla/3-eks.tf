@@ -43,7 +43,17 @@ module "eks" {
   manage_aws_auth_configmap                        = var.manage_aws_auth_configmap
   aws_auth_node_iam_role_arns_non_windows          = var.aws_auth_node_iam_role_arns_non_windows
   aws_auth_fargate_profile_pod_execution_role_arns = var.aws_auth_fargate_profile_pod_execution_role_arns
-  aws_auth_roles                                   = var.aws_auth_roles
+  aws_auth_roles                                   = merge(var.aws_auth_roles, [
+    # We need to add in the Karpenter node IAM role for nodes launched by Karpenter
+    {
+      rolearn  = module.karpenter.role_arn
+      username = "system:node:{{EC2PrivateDNSName}}"
+      groups = [
+        "system:bootstrappers",
+        "system:nodes",
+      ]
+    },
+  ])
   aws_auth_users                                   = var.aws_auth_users
   aws_auth_accounts                                = var.aws_auth_accounts
 
