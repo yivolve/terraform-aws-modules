@@ -56,14 +56,9 @@ jobs:
               body: `
               ### Vulnerability Scan (Action Run: #${{ github.run_number }}) Results:
 
-
-                <details><summary>Show</summary>
-
-                \`\`\`bash\n
-                ${{ env.VULN_SCAN_REPORT }}
-                \`\`\`
-
-                </details>
+              \`\`\`bash\n
+              ${{ env.VULN_SCAN_REPORT }}
+              \`\`\`
 
 
                 Job 🔗: [Job Number ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
