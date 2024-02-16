@@ -32,7 +32,8 @@ jobs:
         if: always()
         id: vulnerability_report
         run: |
-          sed -i '/}/d' ${{ env.VULN_SCAN_FILE }}
+          sed -i 's/}/--/g' ${{ env.VULN_SCAN_FILE }}
+          sed -i 's/#/--/g' ${{ env.VULN_SCAN_FILE }}
           echo "VULN_SCAN_REPORT<<EOF" >> $GITHUB_ENV
           cat "${{ env.VULN_SCAN_FILE }}" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
