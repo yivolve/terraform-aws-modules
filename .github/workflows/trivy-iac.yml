@@ -61,11 +61,10 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `### Vulnerability Scan (Action Run: #${{ github.run_number }}) Results:
+              body: `
+              ### Vulnerability Scan (Action Run: #${{ github.run_number }}) Results:
 
               Job 🔗: [Job Number ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-
-              Random text
               `
             })
 
