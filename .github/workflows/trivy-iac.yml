@@ -64,7 +64,8 @@ jobs:
               body: `
               ### Vulnerability Scan (Action Run: #${{ github.run_number }}) Results:
 
-              Job 🔗: [Job Number ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+                Vulnerability Scan: ${{ steps.vulnerability_report.outputs.CONT_SCAN_REPORT }}
+                Job 🔗: [Job Number ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
               `
             })
 
