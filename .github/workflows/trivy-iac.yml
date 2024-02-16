@@ -49,15 +49,17 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `### Action #${{ github.run_number }} Results: **${{ steps.vulnerability_report.outcome }}**
+
               Vulnerability Scan: ${{ steps.vulnerability_report.outputs.CONT_SCAN_REPORT }}
+
               Job 🔗: [Job Number ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})`
             })
 
-      - name: Generate Summary
-        if: always()
-        run: |
-          cat > $GITHUB_STEP_SUMMARY << EOL
+      # - name: Generate Summary
+      #   if: always()
+      #   run: |
+      #     cat > $GITHUB_STEP_SUMMARY << EOL
 
-          ### Container Vulnerability Scan
-          ${{ steps.vulnerability_report.outputs.CONT_SCAN_REPORT }}
-          EOL
+      #     ### Container Vulnerability Scan
+      #     ${{ steps.vulnerability_report.outputs.CONT_SCAN_REPORT }}
+      #     EOL
