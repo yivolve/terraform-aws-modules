@@ -33,7 +33,7 @@ jobs:
         id: vulnerability_report
         run: |
           sed -i '/}/d' ${{ env.VULN_SCAN_FILE }}
-          echo "VULN_SCAN_REPORT <<EOF" >> $GITHUB_ENV
+          echo "VULN_SCAN_REPORT<<EOF" >> $GITHUB_ENV
           cat "${{ env.VULN_SCAN_FILE }}" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
@@ -45,7 +45,8 @@ jobs:
             const output = `
               ### Vulnerability Scan (Action Run: #${{ github.run_number }}) Results:
 
-                Vulnerability Scan: ${{ env.VULN_SCAN_REPORT }}
+                Vulnerability Scan:
+                  ${{ env.VULN_SCAN_REPORT }}
                 Job 🔗: [Job Number ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
               `;
             github.rest.issues.createComment({
