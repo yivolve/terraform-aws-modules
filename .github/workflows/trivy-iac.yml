@@ -55,7 +55,7 @@ jobs:
       #         Job 🔗: [Job Number ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})`
       #       })
 
-       name: Comment PR
+      - name: Comment PR
         uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
         with:
