@@ -1,8 +1,5 @@
 name: Trivy IaC
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -27,7 +24,7 @@ jobs:
           hide-progress: false
           format: 'table'
           output: ${{ env.VULN_SCAN_FILE }}
-          exit-code: '0'
+          exit-code: '1'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
 
@@ -56,7 +53,7 @@ jobs:
       #       })
 
       - name: Comment PR
-        if: github.event_name == 'pull_request'
+        if: always()
         uses: actions/github-script@v7
         with:
           script: |
