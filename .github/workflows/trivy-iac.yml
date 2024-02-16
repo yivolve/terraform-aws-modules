@@ -6,10 +6,16 @@ on:
   pull_request:
     branches:
       - main
+
+permissions:
+  pull-requests: write
+
 jobs:
   build:
     name: Trivy IaC
     runs-on: ubuntu-20.04
+    env:
+      VULN_SCAN_FILE: "vulnerability_results.txt"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -19,13 +25,39 @@ jobs:
         with:
           scan-type: 'config'
           hide-progress: false
-          format: 'sarif'
-          output: 'trivy-results.sarif'
+          format: 'table'
+          output: ${{ env.VULN_SCAN_FILE }}
           exit-code: '0'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
 
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
+      - name: Read scan vulnerability report
+        if: always()
+        id: vulnerability_report
+        run: |
+          echo 'CONT_SCAN_REPORT<<EOF' >> $GITHUB_OUTPUT
+          cat ${{ env.VULN_SCAN_FILE }} >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
+
+      - name: Comment PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
         with:
-          sarif_file: 'trivy-results.sarif'
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `### Action #${{ github.run_number }} Results: **${{ steps.vulnerability_report.outcome }}**
+              Vulnerability Scan: ${{ steps.vulnerability_report.outputs.CONT_SCAN_REPORT }}
+              Job 🔗: [Job Number ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})`
+            })
+
+      - name: Generate Summary
+        if: always()
+        run: |
+          cat > $GITHUB_STEP_SUMMARY << EOL
+
+          ### Container Vulnerability Scan
+          ${{ steps.vulnerability_report.outputs.CONT_SCAN_REPORT }}
+          EOL
