@@ -32,9 +32,9 @@ jobs:
         if: always()
         id: vulnerability_report
         run: |
-          echo 'CONT_SCAN_REPORT<<EOF' >> $GITHUB_OUTPUT
-          cat ${{ env.VULN_SCAN_FILE }} | head -4 >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
+          echo "VULN_SCAN_REPORT<<EOF" >> $GITHUB_ENV
+          cat ${{ env.VULN_SCAN_FILE }} >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       # - name: Comment PR
       #   if: always()
@@ -60,5 +60,5 @@ jobs:
           cat > $GITHUB_STEP_SUMMARY << EOL
 
           ### Container Vulnerability Scan
-          ${{ steps.vulnerability_report.outputs.CONT_SCAN_REPORT }}
+          ${{ env.VULN_SCAN_FILE }}
           EOL
