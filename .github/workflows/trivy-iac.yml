@@ -33,7 +33,7 @@ jobs:
         id: vulnerability_report
         run: |
           echo 'CONT_SCAN_REPORT<<EOF' >> $GITHUB_OUTPUT
-          cat ${{ env.VULN_SCAN_FILE }} >> $GITHUB_OUTPUT
+          cat ${{ env.VULN_SCAN_FILE }} | head -4 >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
 
       # - name: Comment PR
