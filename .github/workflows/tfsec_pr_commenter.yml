@@ -17,4 +17,4 @@ jobs:
         uses: aquasecurity/tfsec-pr-commenter-action@v1.2.0
         with:
           github_token: ${{ github.token }}
-          working_directory: ./modules/compute/ec2_multiple_policies
+          working_directory: ./modules/compute/ec2_multiple_policies/
