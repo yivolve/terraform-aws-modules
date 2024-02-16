@@ -32,6 +32,7 @@ jobs:
         if: always()
         id: vulnerability_report
         run: |
+          sed -i '/┌/d' ${{ env.VULN_SCAN_FILE }}
           sed -i '/└/d' ${{ env.VULN_SCAN_FILE }}
           sed -i '/│/d' ${{ env.VULN_SCAN_FILE }}
           sed -i 's/{/--/g' ${{ env.VULN_SCAN_FILE }}
