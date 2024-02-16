@@ -63,7 +63,7 @@ jobs:
               repo: context.repo.repo,
               body: `### Vulnerability Scan (Action Run: #${{ github.run_number }}) Results:
 
-              ${{ steps.vulnerability_report.outputs.CONT_SCAN_REPORT }}
+              Job 🔗: [Job Number ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
               Random text
               `
