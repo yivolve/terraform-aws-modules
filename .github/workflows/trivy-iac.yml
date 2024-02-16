@@ -61,7 +61,9 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `### Action #${{ github.run_number }} Results: **${{ steps.vulnerability_report.outcome }}**
+              body: `### Vulnerability Scan (Action Run: #${{ github.run_number }} Results:
+
+              ${{ steps.vulnerability_report.outputs.CONT_SCAN_REPORT }}
 
               Random text
               `
