@@ -38,7 +38,7 @@ jobs:
           cat ${{ env.VULN_SCAN_FILE }} >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - run: echo -e "${{ env.VULN_SCAN_REPORT }}
+      - run: echo -e "${{ env.VULN_SCAN_REPORT }}"
 
       - name: Comment PR
         if: always()
