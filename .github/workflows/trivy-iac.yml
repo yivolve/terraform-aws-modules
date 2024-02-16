@@ -45,13 +45,17 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const output = `1
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `
               ### Vulnerability Scan (Action Run: #${{ github.run_number }}) Results:
 
 
-                <details><summary>Show Vulnerability Scan</summary>
+                <details><summary>Show</summary>
 
-                \`\`\`raw\n
+                \`\`\`bash\n
                 ${{ env.VULN_SCAN_REPORT }}
                 \`\`\`
 
@@ -59,12 +63,7 @@ jobs:
 
 
                 Job 🔗: [Job Number ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-              `;
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
+              `
             })
 
       # - name: Generate Summary
