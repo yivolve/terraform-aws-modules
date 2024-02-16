@@ -15,7 +15,7 @@ jobs:
       VULN_SCAN_FILE: "vulnerability_results.txt"
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Run Trivy vulnerability scanner in IaC mode
         uses: aquasecurity/trivy-action@master
@@ -60,5 +60,5 @@ jobs:
           cat > $GITHUB_STEP_SUMMARY << EOL
 
           ### Container Vulnerability Scan
-          ${{ env.VULN_SCAN_FILE }}
+          ${{ env.VULN_SCAN_REPORT }}
           EOL
