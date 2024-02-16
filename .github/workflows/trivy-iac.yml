@@ -39,34 +39,20 @@ jobs:
           cat ${{ env.VULN_SCAN_FILE }} >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
 
-      # - name: Comment PR
-      #   if: github.event_name == 'pull_request'
-      #   uses: actions/github-script@v6
-      #   with:
-      #     script: |
-      #       github.rest.issues.createComment({
-      #         issue_number: context.issue.number,
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         body: `### Action #${{ github.run_number }} Results: **${{ steps.vulnerability_report.outcome }}**
-
-      #         Vulnerability Scan: ${{ steps.vulnerability_report.outputs.CONT_SCAN_REPORT }}
-
-      #         Job 🔗: [Job Number ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})`
-      #       })
-
       - name: Comment PR
-        uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
         with:
           script: |
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `## PR Test comment!!
+              body: `### Action #${{ github.run_number }} Results: **${{ steps.vulnerability_report.outcome }}**
 
-              Random text
+              Vulnerability Scan: ${{ steps.vulnerability_report.outputs.CONT_SCAN_REPORT }}
+
+              Job 🔗: [Job Number ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})`
               `
             })
 
