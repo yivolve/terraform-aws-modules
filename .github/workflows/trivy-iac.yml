@@ -22,7 +22,7 @@ jobs:
         with:
           scan-type: 'config'
           hide-progress: false
-          format: 'table'
+          format: 'html'
           output: ${{ env.VULN_SCAN_FILE }}
           exit-code: '0'
           ignore-unfixed: true
