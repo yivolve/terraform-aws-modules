@@ -48,7 +48,7 @@ jobs:
 
                 <details><summary>Show Vulnerability Scan</summary>
 
-                \`\`\`\n
+                \`\`\`bash\n
                 ${{ env.VULN_SCAN_REPORT }}
                 \`\`\`
 
