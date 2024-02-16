@@ -60,5 +60,5 @@ jobs:
           cat > $GITHUB_STEP_SUMMARY << EOL
 
           ### Container Vulnerability Scan
-          ${{ env.VULN_SCAN_REPORT }}
+          "${{ env.VULN_SCAN_REPORT }}"
           EOL
