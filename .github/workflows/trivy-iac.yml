@@ -60,11 +60,11 @@ jobs:
               `
             })
 
-      # - name: Generate Summary
-      #   if: always()
-      #   run: |
-      #     cat > $GITHUB_STEP_SUMMARY << EOL
+      - name: Generate Summary
+        if: always()
+        run: |
+          cat > $GITHUB_STEP_SUMMARY << EOL
 
-      #     ### Container Vulnerability Scan
-      #     "${{ env.VULN_SCAN_REPORT }}"
-      #     EOL
+          ### Container Vulnerability Scan
+          "${{ env.VULN_SCAN_REPORT }}"
+          EOL
