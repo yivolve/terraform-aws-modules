@@ -55,11 +55,12 @@ jobs:
               repo: context.repo.repo,
               body: `### Vulnerability Scan (Action Run: #${{ github.run_number }}) Results:
 
-              <details><summary>Show Plan</summary>
+              <details><summary>Show Vulnerability Scan Results</summary>
 
               \`\`\`bash\n
               ${{ env.VULN_SCAN_REPORT }}
               \`\`\`
+
               </details>
 
 
