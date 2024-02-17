@@ -1,0 +1,70 @@
+name: Trivy IaC
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  pull-requests: write
+
+jobs:
+  build:
+    name: Trivy IaC
+    runs-on: ubuntu-20.04
+    env:
+      VULN_SCAN_FILE: "vulnerability_results.txt"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner in IaC mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          hide-progress: false
+          format: 'table'
+          output: ${{ env.VULN_SCAN_FILE }}
+          exit-code: '0'
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
+
+      - name: Read scan vulnerability report
+        if: always()
+        id: vulnerability_report
+        run: |
+          sed -i '/}/d' ${{ env.VULN_SCAN_FILE }}
+          echo "VULN_SCAN_REPORT<<EOF" >> $GITHUB_ENV
+          cat "${{ env.VULN_SCAN_FILE }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Comment PR
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `### Vulnerability Scan (Action Run: #${{ github.run_number }}) Results:
+
+              Job 🔗: [Job Number ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+              <details><summary>Show Vulnerability Scan Results</summary>
+
+              \`\`\`bash\n
+              ${{ env.VULN_SCAN_REPORT }}
+              \`\`\`
+
+              </details>
+              `
+            })
+
+      - name: Generate Summary
+        if: always()
+        run: |
+          cat > $GITHUB_STEP_SUMMARY << EOL
+
+          ### Container Vulnerability Scan
+          "${{ env.VULN_SCAN_REPORT }}"
+          EOL
