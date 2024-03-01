@@ -8,6 +8,10 @@ variable "vpc_id" {
   description = "(Optional, Forces new resource) VPC ID. Defaults to the region's default VPC."
 }
 
+variable "cidr_block" {
+  type = string
+}
+
 variable "tags" {
   type = map(string)
   default = {

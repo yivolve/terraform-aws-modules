@@ -1,21 +1,26 @@
+locals {
+  vpc_id = var.vpc_id
+  cidr_block = var.cidr_block
+}
+
 resource "aws_security_group" "main" {
   name        = var.name
   description = "SG fro AWS Elastic Load Balancing traning"
-  vpc_id      = var.vpc_id
+  vpc_id      = local.vpc_id
   tags        = var.tags
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
-  security_group_id = var.vpc_id
-  cidr_ipv4         = aws_vpc.main.cidr_block
+  security_group_id = local.vpc_id
+  cidr_ipv4         = local.cidr_block
   from_port         = 22
   ip_protocol       = "tcp"
   to_port           = 22
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv6" {
-  security_group_id = var.vpc_id
-  cidr_ipv6         = aws_vpc.main.cidr_block
+  security_group_id = local.vpc_id
+  cidr_ipv6         = local.cidr_block
   from_port         = 80
   ip_protocol       = "tcp"
   to_port           = 80
