@@ -1,7 +1,7 @@
 variable "name" {
   description = "Name of the security group"
-  type = string
-  default = "aws_lb_training"
+  type        = string
+  default     = "aws_lb_training"
 }
 
 variable "vpc_id" {
