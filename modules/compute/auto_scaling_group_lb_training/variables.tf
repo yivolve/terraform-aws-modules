@@ -3,10 +3,10 @@ variable "name" {
   default = "test"
 }
 
-variable "cluster_name" {
-  description = "The name to use for all the cluster resources"
-  type        = string
-}
+# variable "cluster_name" {
+#   description = "The name to use for all the cluster resources"
+#   type        = string
+# }
 
 variable "ami" {
   description = "The AMI to run in the cluster"
@@ -30,68 +30,63 @@ variable "instance_name" {
   default = "aws-lb-training"
 }
 
-variable "iam_instance_profile_name" {
-  type        = string
-  description = "(Optional) The IAM Instance Profile to launch the instance with. See Instance Profile below for more details."
-}
-
 variable "aws_policy_names" {
   type = list(string)
 }
 
-variable "min_size" {
-  description = "The minimum number of EC2 Instances in the ASG"
-  type        = number
+# variable "min_size" {
+#   description = "The minimum number of EC2 Instances in the ASG"
+#   type        = number
 
-  validation {
-    condition     = var.min_size > 0
-    error_message = "ASGs can't be empty or we'll have an outage!"
-  }
+#   validation {
+#     condition     = var.min_size > 0
+#     error_message = "ASGs can't be empty or we'll have an outage!"
+#   }
 
-  validation {
-    condition     = var.min_size <= 10
-    error_message = "ASGs must have 10 or fewer instances to keep costs down."
-  }
-}
+#   validation {
+#     condition     = var.min_size <= 10
+#     error_message = "ASGs must have 10 or fewer instances to keep costs down."
+#   }
+# }
 
-variable "max_size" {
-  description = "The maximum number of EC2 Instances in the ASG"
-  type        = number
-}
+# variable "max_size" {
+#   description = "The maximum number of EC2 Instances in the ASG"
+#   type        = number
+# }
 
-variable "desired_capacity" {
-  description = "The desired capacity number of EC2 Instances in the ASG"
-  type        = number
-}
+# variable "desired_capacity" {
+#   description = "The desired capacity number of EC2 Instances in the ASG"
+#   type        = number
+# }
 
-variable "enable_autoscaling" {
-  description = "If set to true, enable auto scaling"
-  type        = bool
-}
+# variable "enable_autoscaling" {
+#   description = "If set to true, enable auto scaling"
+#   type        = bool
+# }
 
-// To allow users to specify custom tags, we add a new map input variable called custom_tags:
-variable "custom_tags" {
-  description = "Custom tags to set on the Instances in the ASG"
-  type        = map(string)
-  default     = {}
-}
+# // To allow users to specify custom tags, we add a new map input variable called custom_tags:
+# variable "custom_tags" {
+#   description = "Custom tags to set on the Instances in the ASG"
+#   type        = map(string)
+#   default     = {}
+# }
 
-variable "subnet_ids" {
-  description = "The subnet IDs to deploy to"
-  type        = list(string)
-}
+# variable "subnet_ids" {
+#   description = "The subnet IDs to deploy to"
+#   type        = list(string)
+# }
 
-variable "target_group_arns" {
-  description = "The ARNs of ELB target groups in which to register Instances"
-  type        = list(string)
-  default     = []
-}
+# variable "target_group_arns" {
+#   description = "The ARNs of ELB target groups in which to register Instances"
+#   type        = list(string)
+#   default     = []
+# }
 
-variable "health_check_type" {
-  description = "The type of health check to perform. Must be one of: EC2, ELB."
-  type        = string
-  default     = "EC2"
-}
+# variable "health_check_type" {
+#   description = "The type of health check to perform. Must be one of: EC2, ELB."
+#   type        = string
+#   default     = "EC2"
+# }
 
 variable "user_data" {
   description = "The User Data script to run in each Instance at boot"
@@ -99,7 +94,7 @@ variable "user_data" {
   default     = null
 }
 
-variable "vpc_id" {
-  description = "VPC in which to deploy the resources"
-  type        = string
-}
+# variable "vpc_id" {
+#   description = "VPC in which to deploy the resources"
+#   type        = string
+# }
