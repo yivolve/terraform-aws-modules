@@ -50,7 +50,7 @@ resource "aws_launch_template" "main" {
   name                   = var.name
   image_id               = var.ami
   instance_type          = var.instance_type
-  vpc_security_group_ids = [aws_security_group.instance.id]
+  vpc_security_group_ids = [var.vpc_security_group_id]
   user_data              = base64encode("${path.module}/var.user_data") # Also: filebase64("${path.module}/var.user_data")
   iam_instance_profile {
     name = aws_iam_instance_profile.ec2_instance_profile.name
