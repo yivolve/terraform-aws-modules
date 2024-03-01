@@ -27,7 +27,7 @@ variable "instance_type" {
 variable "instance_name" {
   type        = string
   description = "Name to give to the instance"
-  default = "aws-lb-training"
+  default     = "aws-lb-training"
 }
 
 variable "aws_policy_names" {
@@ -35,7 +35,17 @@ variable "aws_policy_names" {
 }
 
 variable "vpc_security_group_id" {
-  type =  string
+  type = string
+}
+
+variable "associate_public_ip_address" {
+  type    = bool
+  default = false
+}
+
+variable "subnet_id" {
+  type    = string
+  default = null
 }
 
 # variable "min_size" {
@@ -68,13 +78,6 @@ variable "vpc_security_group_id" {
 #   type        = bool
 # }
 
-# // To allow users to specify custom tags, we add a new map input variable called custom_tags:
-# variable "custom_tags" {
-#   description = "Custom tags to set on the Instances in the ASG"
-#   type        = map(string)
-#   default     = {}
-# }
-
 # variable "subnet_ids" {
 #   description = "The subnet IDs to deploy to"
 #   type        = list(string)
@@ -102,3 +105,11 @@ variable "user_data" {
 #   description = "VPC in which to deploy the resources"
 #   type        = string
 # }
+
+
+// To allow users to specify custom tags, we add a new map input variable called custom_tags:
+variable "custom_tags" {
+  description = "Custom tags to set on the Instances in the ASG"
+  type        = map(string)
+  default     = {}
+}

@@ -76,6 +76,13 @@ resource "aws_launch_template" "main" {
     instance_metadata_tags      = "enabled"
   }
 
+  network_interfaces {
+    associate_public_ip_address = var.associate_public_ip_address
+    description                 = "Part of the ${var.name} ASG"
+    subnet_id                   = var.subnet_id
+    delete_on_termination       = true
+  }
+
   tag_specifications {
     resource_type = "instance"
 
