@@ -1,5 +1,5 @@
 locals {
-  sg_id      = aws_security_group.main
+  sg_id      = aws_security_group.main.id
   cidr_block = var.cidr_block
 }
 
