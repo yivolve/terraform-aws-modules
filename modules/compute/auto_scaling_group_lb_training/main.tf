@@ -29,7 +29,7 @@ resource "aws_iam_role" "ec2_role" {
 resource "aws_iam_role_policy_attachment" "policy_attachments" {
   count      = local.policy_count
   role       = aws_iam_role.ec2_role.id
-  policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/${var.aws_policy_names[count.index]}"
+  policy_arn = "arn:${data.aws_partition.current.partition}:iam::${var.aws_policy_names[count.index]}"
 }
 
 resource "aws_iam_instance_profile" "ec2_instance_profile" {
