@@ -43,57 +43,58 @@ variable "associate_public_ip_address" {
   default = false
 }
 
-variable "subnet_id" {
-  type    = string
-  default = null
+variable "min_size" {
+  description = "The minimum number of EC2 Instances in the ASG"
+  type        = number
+
+  validation {
+    condition     = var.min_size > 0
+    error_message = "ASGs can't be empty or we'll have an outage!"
+  }
+
+  validation {
+    condition     = var.min_size <= 10
+    error_message = "ASGs must have 10 or fewer instances to keep costs down."
+  }
 }
 
-# variable "min_size" {
-#   description = "The minimum number of EC2 Instances in the ASG"
-#   type        = number
+variable "max_size" {
+  description = "The maximum number of EC2 Instances in the ASG"
+  type        = number
+}
 
-#   validation {
-#     condition     = var.min_size > 0
-#     error_message = "ASGs can't be empty or we'll have an outage!"
-#   }
-
-#   validation {
-#     condition     = var.min_size <= 10
-#     error_message = "ASGs must have 10 or fewer instances to keep costs down."
-#   }
-# }
-
-# variable "max_size" {
-#   description = "The maximum number of EC2 Instances in the ASG"
-#   type        = number
-# }
-
-# variable "desired_capacity" {
-#   description = "The desired capacity number of EC2 Instances in the ASG"
-#   type        = number
-# }
+variable "desired_capacity" {
+  description = "The desired capacity number of EC2 Instances in the ASG"
+  type        = number
+}
 
 # variable "enable_autoscaling" {
 #   description = "If set to true, enable auto scaling"
 #   type        = bool
 # }
 
-# variable "subnet_ids" {
-#   description = "The subnet IDs to deploy to"
-#   type        = list(string)
-# }
+variable "subnet_ids" {
+  description = "The subnet IDs to deploy to"
+  type        = list(string)
+}
 
-# variable "target_group_arns" {
-#   description = "The ARNs of ELB target groups in which to register Instances"
-#   type        = list(string)
-#   default     = []
-# }
+variable "target_group_arns" {
+  description = "The ARNs of ELB target groups in which to register Instances"
+  type        = list(string)
+  default     = []
+}
 
-# variable "health_check_type" {
-#   description = "The type of health check to perform. Must be one of: EC2, ELB."
-#   type        = string
-#   default     = "EC2"
-# }
+variable "health_check_type" {
+  description = "(Optional) EC2 or ELB. Controls how health checking is done."
+  type        = string
+  default     = "EC2"
+}
+
+variable "health_check_grace_period" {
+  description = "(Optional, Default: 300) Time (in seconds) after instance comes into service before checking health."
+  type = number
+  default = 300
+}
 
 variable "user_data" {
   description = "The User Data script to run in each Instance at boot"
