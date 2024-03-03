@@ -46,6 +46,7 @@ variable "associate_public_ip_address" {
 variable "min_size" {
   description = "The minimum number of EC2 Instances in the ASG"
   type        = number
+  default     = 1
 
   validation {
     condition     = var.min_size > 0
@@ -61,11 +62,13 @@ variable "min_size" {
 variable "max_size" {
   description = "The maximum number of EC2 Instances in the ASG"
   type        = number
+  default     = 3
 }
 
 variable "desired_capacity" {
   description = "The desired capacity number of EC2 Instances in the ASG"
   type        = number
+  default     = 2
 }
 
 # variable "enable_autoscaling" {
@@ -79,7 +82,7 @@ variable "subnet_ids" {
 }
 
 variable "target_group_arns" {
-  description = "The ARNs of ELB target groups in which to register Instances"
+  description = "(Optional) Set of aws_alb_target_group ARNs, for use with Application or Network Load Balancing. To remove all target group attachments an empty list should be specified. Chech:  https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group#target_group_arns"
   type        = list(string)
   default     = []
 }
@@ -92,8 +95,8 @@ variable "health_check_type" {
 
 variable "health_check_grace_period" {
   description = "(Optional, Default: 300) Time (in seconds) after instance comes into service before checking health."
-  type = number
-  default = 300
+  type        = number
+  default     = 300
 }
 
 variable "user_data" {
