@@ -32,14 +32,9 @@ resource "aws_autoscaling_group" "main" {
     }
   }
 
-
-
-// # value               = each.key == "0" ? "PrimaryEC2" : "EC2Worker${each.key}"
-  # for i in range(var.max_count):
-
   tag {
     key                 = "Name"
-    value = "${var.name}-ASG-${random_id.main.id}"
+    value               = "${var.name}-ASG-${random_id.main.id}"
     propagate_at_launch = true
   }
 
