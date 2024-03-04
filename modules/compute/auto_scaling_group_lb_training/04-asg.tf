@@ -33,7 +33,7 @@ resource "aws_autoscaling_group" "main" {
 // # value               = each.key == "0" ? "PrimaryEC2" : "EC2Worker${each.key}"
   tag {
     key                 = "Name"
-    value = [ for a in local.local.policy_count : "Hello ${a}" ]
+    value = [ for a in local.policy_count : "Hello ${a}" ]
     propagate_at_launch = true
   }
 
