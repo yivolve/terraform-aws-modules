@@ -39,7 +39,7 @@ resource "aws_autoscaling_group" "main" {
 
   tag {
     key                 = "Name"
-    value = "${var.name}-ASG-${random_id.main.b64_std}"
+    value = "${var.name}-ASG-${random_id.main.id}"
     propagate_at_launch = true
   }
 
