@@ -28,11 +28,11 @@ resource "aws_autoscaling_group" "main" {
     }
   }
 
-  # tag {
-  #   key                 = "Name"
-  #   value               = "${var.name} ASG conf"
-  #   propagate_at_launch = true
-  # }
+  tag {
+    key                 = "Name"
+    value               = each.key == "0" ? "PrimaryEC2" : "EC2Worker${each.key}"
+    propagate_at_launch = true
+  }
 
   dynamic "tag" {
     for_each = var.custom_tags
@@ -44,13 +44,12 @@ resource "aws_autoscaling_group" "main" {
     }
   }
 
-  dynamic "tag" {
-    for_each = local.policy_count
-    content {
-      key                 = Name
-      value               = format("${var.name} %02d", each.key + 1)
-      propagate_at_launch = true
-    }
-  }
-
+  # dynamic "tag" {
+  #   for_each = local.policy_count
+  #   content {
+  #     key                 = Name
+  #     value               = format("${var.name} %02d", each.key + 1)
+  #     propagate_at_launch = true
+  #   }
+  # }
 }
