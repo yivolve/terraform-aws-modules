@@ -5,14 +5,14 @@ variable "alb_name" {
 
 variable "load_balancer_type" {
   description = "(Optional) The type of load balancer to create. Possible values are application, gateway, or network. The default value is application."
-  type = string
-  default = "application"
+  type        = string
+  default     = "application"
 }
 
 variable "enable_deletion_protection" {
   description = "(Optional) If true, deletion of the load balancer will be disabled via the AWS API. This will prevent Terraform from deleting the load balancer. Defaults to false."
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 variable "vpc_id" {
