@@ -28,9 +28,12 @@ resource "aws_autoscaling_group" "main" {
     }
   }
 
+
+
+// # value               = each.key == "0" ? "PrimaryEC2" : "EC2Worker${each.key}"
   tag {
     key                 = "Name"
-    value               = each.key == "0" ? "PrimaryEC2" : "EC2Worker${each.key}"
+    value = [ for a in local.local.policy_count : "Hello ${a}" ]
     propagate_at_launch = true
   }
 
@@ -43,13 +46,4 @@ resource "aws_autoscaling_group" "main" {
       propagate_at_launch = true
     }
   }
-
-  # dynamic "tag" {
-  #   for_each = local.policy_count
-  #   content {
-  #     key                 = Name
-  #     value               = format("${var.name} %02d", each.key + 1)
-  #     propagate_at_launch = true
-  #   }
-  # }
 }
