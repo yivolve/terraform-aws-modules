@@ -1,5 +1,5 @@
 resource "random_id" "main" {
-  byte_length = 1
+  byte_length = 2
 }
 
 resource "aws_autoscaling_group" "main" {
