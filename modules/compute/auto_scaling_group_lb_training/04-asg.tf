@@ -1,3 +1,7 @@
+resource "random_id" "main" {
+  byte_length = 1
+}
+
 resource "aws_autoscaling_group" "main" {
   name                      = var.name
   min_size                  = var.min_size
@@ -31,9 +35,11 @@ resource "aws_autoscaling_group" "main" {
 
 
 // # value               = each.key == "0" ? "PrimaryEC2" : "EC2Worker${each.key}"
+  # for i in range(var.max_count):
+
   tag {
     key                 = "Name"
-    value = [ for a in local.policy_count : "Hello ${a}" ]
+    value = "${var.name}-ASG-${random_id.main}"
     propagate_at_launch = true
   }
 
