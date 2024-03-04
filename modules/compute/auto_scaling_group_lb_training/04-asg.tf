@@ -28,11 +28,11 @@ resource "aws_autoscaling_group" "main" {
     }
   }
 
-  tag {
-    key                 = "Name"
-    value               = "${var.name} ASG conf"
-    propagate_at_launch = true
-  }
+  # tag {
+  #   key                 = "Name"
+  #   value               = "${var.name} ASG conf"
+  #   propagate_at_launch = true
+  # }
 
   dynamic "tag" {
     for_each = var.custom_tags
@@ -43,4 +43,14 @@ resource "aws_autoscaling_group" "main" {
       propagate_at_launch = true
     }
   }
+
+  dynamic "tag" {
+    for_each = local.policy_count
+    content {
+      key                 = Name
+      value               = "${var.name} ASG conf ${idx}"
+      propagate_at_launch = true
+    }
+  }
+
 }

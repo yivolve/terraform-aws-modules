@@ -3,11 +3,6 @@ variable "name" {
   default = "test"
 }
 
-# variable "cluster_name" {
-#   description = "The name to use for all the cluster resources"
-#   type        = string
-# }
-
 variable "ami" {
   description = "The AMI to run in the cluster"
   type        = string
