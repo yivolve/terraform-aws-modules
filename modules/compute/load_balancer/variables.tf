@@ -15,6 +15,39 @@ variable "enable_deletion_protection" {
   default     = false
 }
 
+variable "healthy_threshold" {
+  description = "(Optional) Number of consecutive health check successes required before considering a target healthy. The range is 2-10. Defaults to 3."
+  type        = number
+  default     = 3
+}
+
+variable "unhealthy_threshold" {
+  description = "(Optional) Number of consecutive health check failures required before considering a target unhealthy. The range is 2-10. Defaults to 3."
+  type        = number
+  default     = 3
+}
+
+variable "timeout" {
+  description = " (optional) Amount of time, in seconds, during which no response from a target means a failed health check. The range is 2–120 seconds. For target groups with a protocol of HTTP, the default is 6 seconds. For target groups with a protocol of TCP, TLS or HTTPS, the default is 10 seconds. For target groups with a protocol of GENEVE, the default is 5 seconds. If the target type is lambda, the default is 30 seconds."
+  type        = number
+  default     = 6
+}
+
+variable "health_check_path" {
+  description = "(May be required) Destination for the health check request. Required for HTTP/HTTPS ALB and HTTP NLB. Only applies to HTTP/HTTPS. For HTTP and HTTPS health checks, the default is /. For gRPC health checks, the default is /Amazon Web Services.ALB/healthcheck."
+  type = string
+}
+
+variable "health_check_port" {
+  description = "(Optional) The port the load balancer uses when performing health checks on targets. Valid values are either traffic-port, to use the same port as the target group, or a valid port number between 1 and 65536. Default is traffic-port."
+}
+
+variable "interval" {
+  description = "(Optional) Approximate amount of time, in seconds, between health checks of an individual target. The range is 5-300. For lambda target groups, it needs to be greater than the timeout of the underlying lambda. Defaults to 30."
+  type        = number
+  default     = 30
+}
+
 variable "vpc_id" {
   description = "VPC in which to deploy the resources"
   type        = string
