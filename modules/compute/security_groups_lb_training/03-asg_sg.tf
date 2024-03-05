@@ -28,7 +28,6 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http" {
 
 resource "aws_vpc_security_group_ingress_rule" "allow_alb_sg" {
   security_group_id            = local.sg_id
-  cidr_ipv4                    = local.cidr_block
   referenced_security_group_id = aws_security_group.alb.id
   from_port                    = 80
   ip_protocol                  = "tcp"
