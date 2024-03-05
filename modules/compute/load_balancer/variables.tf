@@ -35,7 +35,7 @@ variable "timeout" {
 
 variable "health_check_path" {
   description = "(May be required) Destination for the health check request. Required for HTTP/HTTPS ALB and HTTP NLB. Only applies to HTTP/HTTPS. For HTTP and HTTPS health checks, the default is /. For gRPC health checks, the default is /Amazon Web Services.ALB/healthcheck."
-  type = string
+  type        = string
 }
 
 variable "health_check_port" {
