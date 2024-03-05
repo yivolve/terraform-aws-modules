@@ -36,6 +36,20 @@ resource "aws_lb_listener" "http" {
   }
 }
 
+resource "aws_alb_listener_rule" "listener_rule" {
+  depends_on   = ["aws_alb_target_group.alb_target_group"]
+
+  listener_arn = "${aws_alb_listener.http.arn}"
+  action {
+    type             = "forward"
+    target_group_arn = "${aws_alb_target_group.alb_target_group.id}"
+  }
+  condition {
+    field  = "path-pattern"
+    values = ["${var.alb_path}"]
+  }
+}
+
 resource "aws_security_group" "alb" {
   name        = "${var.alb_name} ALB"
   description = "${var.alb_name} ALB security group"
