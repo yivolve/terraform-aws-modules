@@ -13,7 +13,7 @@ resource "aws_security_group" "alb" {
 
   tags = merge(
     {
-      Name = "${var.name}-ALB"
+      "Name" = "${var.name}-ALB"
     },
     var.tags
   )

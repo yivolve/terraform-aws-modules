@@ -9,7 +9,7 @@ resource "aws_security_group" "main" {
   vpc_id      = var.vpc_id
   tags = merge(
     {
-      Name = "${var.name}-ASG"
+      "Name" = "${var.name}-ASG"
     },
     var.tags
   )
