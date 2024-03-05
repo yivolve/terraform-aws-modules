@@ -7,13 +7,13 @@ locals {
 }
 
 resource "aws_security_group" "alb" {
-  name        = "${var.name} ALB"
+  name        = "${var.name}-ALB"
   description = "${var.name} ALB security group"
   vpc_id      = var.vpc_id
 
   tags = merge(
     {
-      Name = "${var.name} ALB"
+      Name = "${var.name}-ALB"
     },
     var.tags
   )

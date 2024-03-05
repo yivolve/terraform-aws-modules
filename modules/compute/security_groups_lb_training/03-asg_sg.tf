@@ -4,10 +4,15 @@ locals {
 }
 
 resource "aws_security_group" "main" {
-  name        = var.name
+  name        = "${var.name}-ASG"
   description = "SG for AWS Elastic Load Balancing traning"
   vpc_id      = var.vpc_id
-  tags        = var.tags
+  tags = merge(
+    {
+      Name = "${var.name}-ASG"
+    },
+    var.tags
+  )
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
