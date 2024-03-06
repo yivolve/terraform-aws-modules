@@ -59,9 +59,9 @@ variable "security_groups" {
   type = list(string)
 }
 
-variable "host_header" {
-  description = "value"
-}
+# variable "host_header" {
+#   description = "value"
+# }
 
 variable "vpc_id" {
   description = "VPC in which to deploy the resources"
