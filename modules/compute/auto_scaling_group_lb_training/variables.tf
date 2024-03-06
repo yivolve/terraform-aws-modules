@@ -105,6 +105,10 @@ variable "user_data" {
 #   type        = string
 # }
 
+variable "alb_target_group_arn" {
+  description = "(Optional) ARN of a load balancer target group."
+  type = string
+}
 
 // To allow users to specify custom tags, we add a new map input variable called custom_tags:
 variable "custom_tags" {
