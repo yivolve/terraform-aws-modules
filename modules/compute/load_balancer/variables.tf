@@ -48,6 +48,21 @@ variable "interval" {
   default     = 30
 }
 
+variable "load_balancing_algorithm" {
+  description = "(Optional) Determines how the load balancer selects targets when routing requests. Only applicable for Application Load Balancer Target Groups. The value is round_robin, least_outstanding_requests, or weighted_random. The default is round_robin."
+  type = string
+  default = "round_robin"
+}
+
+variable "security_groups" {
+  description = "(Optional) A list of security group IDs to assign to the LB. Only valid for Load Balancers of type application or network. For load balancers of type network security groups cannot be added if none are currently present, and cannot all be removed once added. If either of these conditions are met, this will force a recreation of the resource."
+  type = list(string)
+}
+
+variable "host_header" {
+  description = "value"
+}
+
 variable "vpc_id" {
   description = "VPC in which to deploy the resources"
   type        = string
