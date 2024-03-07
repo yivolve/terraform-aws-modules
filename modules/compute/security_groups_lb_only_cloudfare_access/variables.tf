@@ -12,7 +12,7 @@ variable "cidr_block" {
   type = string
 }
 
-variable "asg_ingress_rules" {
+variable "ingress_rules" {
   description = "ASG ingress rules"
   type = map(object({
     from_port = number
@@ -20,12 +20,10 @@ variable "asg_ingress_rules" {
   }))
   default = {
     "ssh" = {
-      from_port = 22
-      to_port   = 22
+      port = 443
     },
     "http" = {
       from_port = 80
-      to_port   = 80
     }
   }
 }
