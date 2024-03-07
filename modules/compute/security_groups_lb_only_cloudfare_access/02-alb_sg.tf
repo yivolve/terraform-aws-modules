@@ -62,4 +62,3 @@ resource "aws_security_group_rule" "alb_sg_allow_http_inbound" {
   cidr_blocks      = local.alb_ingress_cidr_ipv4
   ipv6_cidr_blocks = local.alb_ingress_ipv6_cidr_blocks
 }
-
