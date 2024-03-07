@@ -15,8 +15,7 @@ variable "cidr_block" {
 variable "ingress_rules" {
   description = "ASG ingress rules"
   type = map(object({
-    from_port = number
-    to_port   = number
+    port = number
   }))
   default = {
     "ssh" = {
