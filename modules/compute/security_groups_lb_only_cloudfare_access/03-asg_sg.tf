@@ -27,21 +27,14 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
   to_port           = each.value.to_port
 }
 
-# resource "aws_vpc_security_group_ingress_rule" "allow_http" {
-#   security_group_id = local.sg_id
-#   cidr_ipv4         = local.cidr_block
-#   ip_protocol       = "tcp"
-#   from_port         = 80
-#   to_port           = 80
-# }
 
-# resource "aws_vpc_security_group_ingress_rule" "allow_alb_sg" {
-#   security_group_id            = local.sg_id
-#   referenced_security_group_id = aws_security_group.alb.id
-#   from_port                    = 80
-#   ip_protocol                  = "tcp"
-#   to_port                      = 80
-# }
+resource "aws_vpc_security_group_ingress_rule" "allow_alb_sg" {
+  security_group_id            = local.sg_id
+  referenced_security_group_id = aws_security_group.alb.id
+  from_port                    = local.http_port
+  ip_protocol                  = "tcp"
+  to_port                      = local.http_port
+}
 
 resource "aws_vpc_security_group_egress_rule" "allow_all" {
   security_group_id = local.sg_id
