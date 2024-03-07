@@ -22,7 +22,7 @@ variable "ingress_rules" {
       port = 443
     },
     "http" = {
-      from_port = 80
+      port = 80
     }
   }
 }
