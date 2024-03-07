@@ -1,8 +1,8 @@
 locals {
-  alb_inbound_ports = {
-    http  = 80
-    https = 443
-  }
+  alb_inbound_ports = [
+    { port = 80},
+    { port = 443}
+  ]
   alb_ingress_cidr_ipv4 = [
     "103.21.244.0/22",
     "103.22.200.0/22",
@@ -52,7 +52,7 @@ resource "aws_security_group_rule" "alb_sg_allow_http_inbound" {
   type              = "ingress"
   security_group_id = aws_security_group.alb.id
 
-  from_port        = local.http_port
+  from_port        = each.value
   to_port          = local.http_port
   protocol         = local.tcp_protocol
   cidr_blocks      = local.alb_ingress_cidr_ipv4
