@@ -1,6 +1,6 @@
 locals {
-  inbound_ports = [80, 443]
-  cidr_blocks = [
+  alb_inbound_ports = [80, 443]
+  alb_ingress_cidr_ipv4 = [
     "103.21.244.0/22",
     "103.22.200.0/22",
     "103.31.4.0/22",
@@ -17,7 +17,7 @@ locals {
     "197.234.240.0/22",
     "198.41.128.0/17"
   ]
-  ipv6_cidr_blocks = [
+  alb_ingress_ipv6_cidr_blocks = [
     "2400:cb00::/32",
     "2606:4700::/32",
     "2803:f800::/32",
@@ -27,10 +27,8 @@ locals {
     "2c0f:f248::/32"
   ]
   http_port    = 80
-  any_port     = 0
-  any_protocol = "-1"
   tcp_protocol = "tcp"
-  all_ips      = ["0.0.0.0/0"]
+
 }
 
 resource "aws_security_group" "alb" {
@@ -47,12 +45,14 @@ resource "aws_security_group" "alb" {
 }
 
 resource "aws_security_group_rule" "alb_sg_allow_http_inbound" {
+  for_each          = local.alb_inbound_ports
   type              = "ingress"
   security_group_id = aws_security_group.alb.id
 
   from_port        = local.http_port
   to_port          = local.http_port
   protocol         = local.tcp_protocol
-  cidr_blocks      = local.inbound_ports
-  ipv6_cidr_blocks = local.ipv6_cidr_blocks
+  cidr_blocks      = local.alb_ingress_cidr_ipv4
+  ipv6_cidr_blocks = local.alb_ingress_ipv6_cidr_blocks
 }
+
