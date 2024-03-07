@@ -1,5 +1,8 @@
 locals {
-  alb_inbound_ports = [80, 443]
+  alb_inbound_ports = {
+    http  = 80
+    https = 443
+  }
   alb_ingress_cidr_ipv4 = [
     "103.21.244.0/22",
     "103.22.200.0/22",
