@@ -23,8 +23,8 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
   security_group_id = local.sg_id
   cidr_ipv4         = local.cidr_block
   ip_protocol       = local.tcp_protocol
-  from_port         = each.value.from_port
-  to_port           = each.value.to_port
+  from_port         = each.value.port
+  to_port           = each.value.port
 }
 
 
@@ -32,9 +32,9 @@ resource "aws_vpc_security_group_ingress_rule" "allow_alb_sg" {
   for_each                     = var.ingress_rules
   security_group_id            = local.sg_id
   referenced_security_group_id = aws_security_group.alb.id
-  from_port                    = each.value.from_port
   ip_protocol                  = local.tcp_protocol
-  to_port                      = each.value.from_port
+  from_port                    = each.value.port
+  to_port                      = each.value.port
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all" {
