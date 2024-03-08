@@ -29,6 +29,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_alb_sg" {
   from_port                    = 80
   ip_protocol                  = "tcp"
   to_port                      = 80
+  depends_on                   = [aws_security_group.alb]
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all" {
