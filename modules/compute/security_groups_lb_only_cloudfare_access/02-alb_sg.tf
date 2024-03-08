@@ -51,7 +51,7 @@ resource "aws_security_group" "alb" {
   )
 }
 
-resource "aws_security_group_rule" "alb_sg_allow_http_inbound" {
+resource "aws_security_group_rule" "alb_sg_allow_cloudfare_inbound" {
   for_each          = local.alb_inbound_ports
   type              = "ingress"
   security_group_id = aws_security_group.alb.id
@@ -63,13 +63,11 @@ resource "aws_security_group_rule" "alb_sg_allow_http_inbound" {
   ipv6_cidr_blocks = local.alb_ingress_ipv6_cidr_blocks
 }
 
-resource "aws_security_group_rule" "alb_sg_allow_all_outbound" {
-  type              = "egress"
-  security_group_id = aws_security_group.alb.id
-
-  from_port   = local.any_port
-  to_port     = local.any_port
-  protocol    = local.any_protocol
-  cidr_blocks      = local.alb_ingress_cidr_ipv4
-  ipv6_cidr_blocks = local.alb_ingress_ipv6_cidr_blocks
+resource "aws_vpc_security_group_egress_rule" "alb_sg_allow_cloudfare_outbound" {
+  security_group_id            = aws_security_group.alb.id
+  referenced_security_group_id = aws_security_group.main.id
+  ip_protocol                  = local.tcp_protocol
+  from_port                    = local.http_port
+  to_port                      = local.http_port
+  depends_on                   = [aws_security_group.main]
 }
