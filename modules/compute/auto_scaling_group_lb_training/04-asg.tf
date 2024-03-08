@@ -52,4 +52,7 @@ resource "aws_autoscaling_group" "main" {
 resource "aws_autoscaling_attachment" "lb_asg_attachment" {
   autoscaling_group_name = aws_autoscaling_group.main.name
   lb_target_group_arn    = var.alb_target_group_arn
+  lifecycle {
+    ignore_changes = [lb_target_group_arn]
+  }
 }
