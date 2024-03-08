@@ -59,7 +59,7 @@ resource "aws_security_group_rule" "alb_sg_allow_http_inbound" {
 // Ingress and Egress rules taken from AWS recomendations: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-update-security-groups.html#security-group-recommended-rules
 
 resource "aws_vpc_security_group_egress_rule" "alb_sg_allow_cloudfare_ip_range" {
-  security_group_id            = local.sg_id
+  security_group_id            = aws_security_group_rule.alb_sg_allow_http_inbound
   referenced_security_group_id = aws_security_group.main.id
   ip_protocol                  = local.tcp_protocol
   from_port                    = local.http_port
