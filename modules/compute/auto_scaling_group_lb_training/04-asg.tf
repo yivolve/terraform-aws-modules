@@ -30,7 +30,7 @@ resource "aws_autoscaling_group" "main" {
       condition     = length(self.availability_zones) > 1
       error_message = "You must use more than one AZ for high availability!"
     }
-    ignore_changes = [lb_target_group_arn]
+    ignore_changes = [load_balancers]
   }
 
 
