@@ -31,6 +31,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
 resource "aws_vpc_security_group_ingress_rule" "allow_alb_sg" {
   for_each                     = var.ingress_rules
   security_group_id            = local.sg_id
+  cidr_ipv4                    = local.cidr_block
   referenced_security_group_id = aws_security_group.alb.id
   ip_protocol                  = local.tcp_protocol
   from_port                    = each.value.port
