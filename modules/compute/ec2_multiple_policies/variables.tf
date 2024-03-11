@@ -31,4 +31,3 @@ variable "custom_tags" {
   description = "Tags to assign to the created resources"
   type        = map(string)
 }
-
