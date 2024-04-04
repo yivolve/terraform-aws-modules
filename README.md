@@ -1,3 +1,2 @@
-# Terrafrom AWS Modules
-
-Terraform AWS that mainly consumed by Terragrunt.
+# Terraform AWS Common Modules for Yineto
+Terraform AWS modules that are mainly consumed by Terragrunt.
