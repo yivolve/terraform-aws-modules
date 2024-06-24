@@ -22,6 +22,11 @@ variable "subnet_id" {
   description = "(Optional string) VPC Subnet ID to launch in."
 }
 
+variable "vpc_security_group_ids" {
+  type = list(string)
+  description = "(Optional list(string), VPC only) List of security group IDs to associate with."
+}
+
 variable "user_data" {
   description = "The User Data script to run in each Instance at boot time"
   type        = string

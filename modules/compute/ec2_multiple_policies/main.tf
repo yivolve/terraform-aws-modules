@@ -47,6 +47,7 @@ resource "aws_instance" "ec_instance" {
   instance_type        = var.instance_type
   iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile.name
   subnet_id            = var.subnet_id
+  vpc_security_group_ids  = var.vpc_security_group_ids
   user_data            = base64encode("${var.user_data}")
 
   tags = merge(
