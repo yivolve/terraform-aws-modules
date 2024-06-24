@@ -6,7 +6,6 @@ variable "instance_name" {
 variable "ami_id" {
   description = "The AMI to run in the cluster"
   type        = string
-  default     = "ami-08d4ac5b634553e16"
 }
 
 variable "instance_type" {
@@ -18,9 +17,15 @@ variable "instance_type" {
   }
 }
 
-variable "aws_service_principal" {
+variable "subnet_id" {
   type        = string
-  description = "EC2, S3, etc.."
+  description = "(Optional string) VPC Subnet ID to launch in."
+}
+
+variable "user_data" {
+  description = "The User Data script to run in each Instance at boot time"
+  type        = string
+  default     = null
 }
 
 variable "aws_policy_names" {
