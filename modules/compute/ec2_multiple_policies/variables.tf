@@ -23,7 +23,7 @@ variable "subnet_id" {
 }
 
 variable "vpc_security_group_ids" {
-  type = list(string)
+  type        = list(string)
   description = "(Optional list(string), VPC only) List of security group IDs to associate with."
 }
 
