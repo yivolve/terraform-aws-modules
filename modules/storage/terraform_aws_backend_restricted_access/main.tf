@@ -31,6 +31,7 @@ resource "aws_s3_bucket_public_access_block" "public_access_configuration" {
 
 resource "aws_s3_bucket_policy" "bucket_policy" {
   # Deny all but specific roles: https://dev.to/jansonsa/aws-how-to-deny-access-to-resources-while-allowing-a-specific-role-547b
+  # S3 actions: https://docs.aws.amazon.com/AmazonS3/latest/API/API_Operations.html
   bucket = aws_s3_bucket.terraform_state.id
   policy = jsonencode(
     {
@@ -118,7 +119,7 @@ resource "aws_dynamodb_resource_policy" "example" {
       "Version": "2012-10-17",
       "Statement": [
         {
-          "Sid": "Statement1",
+          "Sid": "TrustedPrincipals",
           "Effect": "Allow",
           "Principal": {
             "AWS": var.trusted_principals
@@ -129,6 +130,11 @@ resource "aws_dynamodb_resource_policy" "example" {
           "Resource": [
             "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${var.aws_backend_name}"
           ]
+          "Condition": {
+            "StringNotLike": {
+              "aws:PrincipalArn": var.trusted_principals
+            }
+          }
         }
       ]
     }
