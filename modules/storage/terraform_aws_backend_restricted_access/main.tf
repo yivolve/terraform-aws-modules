@@ -86,13 +86,13 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
 }
 
 resource "aws_dynamodb_table" "terraform_locks" {
+  # https://dynobase.dev/dynamodb-terraform/
   name         = var.aws_backend_name
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
 
-  server_side_encryption {
-   enabled = true
-  }
+  point_in_time_recovery { enabled = true }
+  server_side_encryption { enabled = true }
 
   attribute {
     name = "LockID"
