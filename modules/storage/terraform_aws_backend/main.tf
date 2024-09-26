@@ -36,6 +36,18 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
       Version = "2012-10-17"
       Statement = [
         {
+          Sid : "RootAccess",
+          Effect : "Allow",
+          Principal : {
+            "AWS" : "arn:aws:iam::${var.aws_account_id}:root"
+          },
+          Action : "s3:*",
+          Resource : [
+            "${aws_s3_bucket.terraform_state.arn}/*",
+            "${aws_s3_bucket.terraform_state.arn}",
+          ]
+        },
+        {
           Sid       = "EnforcedTLS"
           Effect    = "Deny"
           Principal = "*"
@@ -49,18 +61,6 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
               "aws:SecureTransport" = "false"
             }
           }
-        },
-        {
-          Sid : "RootAccess",
-          Effect : "Allow",
-          Principal : {
-            "AWS" : "arn:aws:iam::${var.aws_account_id}:root"
-          },
-          Action : "s3:*",
-          Resource : [
-            "${aws_s3_bucket.terraform_state.arn}/*",
-            "${aws_s3_bucket.terraform_state.arn}",
-          ]
         },
         {
           Sid       = "DenyInsecureProtoliVersions"
@@ -85,6 +85,9 @@ resource "aws_dynamodb_table" "terraform_locks" {
   name         = var.aws_backend_name
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
+
+  point_in_time_recovery { enabled = true }
+  server_side_encryption { enabled = true }
 
   attribute {
     name = "LockID"
