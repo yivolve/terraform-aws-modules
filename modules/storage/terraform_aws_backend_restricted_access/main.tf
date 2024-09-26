@@ -30,22 +30,26 @@ resource "aws_s3_bucket_public_access_block" "public_access_configuration" {
 }
 
 resource "aws_s3_bucket_policy" "bucket_policy" {
+  # Deny all but specific roles: https://dev.to/jansonsa/aws-how-to-deny-access-to-resources-while-allowing-a-specific-role-547b
   bucket = aws_s3_bucket.terraform_state.id
   policy = jsonencode(
     {
       Version = "2012-10-17"
       Statement = [
         {
-          Sid : "RootAccess",
-          Effect : "Allow",
-          Principal : {
-            "AWS" : "arn:aws:iam::${var.aws_account_id}:root"
-          },
+          Sid : "TrustedPrincipals",
+          Effect : "Deny",
+          "Principal": "*",
           Action : "s3:*",
           Resource : [
             "${aws_s3_bucket.terraform_state.arn}/*",
             "${aws_s3_bucket.terraform_state.arn}",
           ]
+          Condition: {
+            StringNotLike: {
+              "aws:PrincipalArn": var.trusted_principals
+            }
+          }
         },
         {
           Sid       = "EnforcedTLS"
@@ -82,6 +86,7 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
 }
 
 resource "aws_dynamodb_table" "terraform_locks" {
+  # https://dynobase.dev/dynamodb-terraform/
   name         = var.aws_backend_name
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
@@ -95,4 +100,28 @@ resource "aws_dynamodb_table" "terraform_locks" {
   }
 
   tags = var.custom_tags
+}
+
+resource "aws_dynamodb_resource_policy" "example" {
+  resource_arn = aws_dynamodb_table.terraform_locks.arn
+  policy       = jsonencode(
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Sid": "Statement1",
+          "Effect": "Allow",
+          "Principal": {
+            "AWS": var.trusted_principals
+          },
+          "Action": [
+            "dynamodb:*"
+          ],
+          "Resource": [
+            "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${var.aws_backend_name}"
+          ]
+        }
+      ]
+    }
+  )
 }
