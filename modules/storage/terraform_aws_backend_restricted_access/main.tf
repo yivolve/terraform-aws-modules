@@ -40,7 +40,7 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
         {
           Sid : "TrustedPrincipals",
           Effect : "Deny",
-          "Principal": "*",
+          Principal: "*",
           Action:[
             "s3:PutObject",
             "s3:PutObjectAcl",
@@ -120,13 +120,19 @@ resource "aws_dynamodb_resource_policy" "example" {
       "Statement": [
         {
           "Sid": "TrustedPrincipals",
-          "Effect": "Allow",
-          "Principal": {
-            "AWS": var.trusted_principals
-          },
-          "Action": [
-            "dynamodb:*"
-          ],
+          Effect : "Deny",
+          Principal: "*",
+          Action:[
+            "dynamodb:DeleteTable",
+            "dynamodb:UpdateTable",
+            "dynamodb:GetItem",
+            "dynamodb:PutItem",
+            "dynamodb:UpdateItem",
+            "dynamodb:DeleteItem",
+            "dynamodb:GetResourcePolicy",
+            "dynamodb:DeleteResourcePolicy",
+            "dynamodb:PutResourcePolicy"
+         ],
           "Resource": [
             "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${var.aws_backend_name}"
           ]
