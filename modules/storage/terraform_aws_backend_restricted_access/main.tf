@@ -40,7 +40,16 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
           Sid : "TrustedPrincipals",
           Effect : "Deny",
           "Principal": "*",
-          Action : "s3:*",
+          Action:[
+            "s3:PutObject",
+            "s3:PutObjectAcl",
+            "s3:GetObject",
+            "s3:GetObjectAcl",
+            "s3:DeleteObject",
+            "s3:GetBucketPolicy",
+            "s3:PutBucketPolicy",
+            "s3:DeleteBucketPolicy"
+         ],
           Resource : [
             "${aws_s3_bucket.terraform_state.arn}/*",
             "${aws_s3_bucket.terraform_state.arn}",
